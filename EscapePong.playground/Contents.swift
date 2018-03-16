@@ -32,7 +32,7 @@ class Scene: SKScene, SKPhysicsContactDelegate {
     var onBoardDescription = NSTextField()
     var onBoardClick = NSTextField()
     
-    // Show onBoarding screens, and set the different titles and descriptions.
+    // Show onBoarding (instruction/initial) screens, and set the different titles and descriptions.
     func onBoarding() {
         if (isOnBoarding) {
             onBoardTitle.isBezeled = false;onBoardTitle.isEditable = false;onBoardTitle.drawsBackground = false;onBoardTitle.alignment = .center;onBoardTitle.font = NSFont.systemFont(ofSize: 60.0);onBoardTitle.textColor = NSColor.white
@@ -230,6 +230,7 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // If mouse is moved, move all paddles based on new mouse location.
     override func mouseMoved(with event: NSEvent) {
         let tLocation = event.location(in: self)
         topStick.position.x = tLocation.x
@@ -238,6 +239,7 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         rightStick.position.y = tLocation.y
     }
     
+    // Catch collisions between a paddle and the ball, to add points and velocity, as well as between the screen edges and the ball, to remove lives or show Game Over screen.
     func didBegin(_ contact: SKPhysicsContact) {
         if ((contact.bodyA.node?.name == "topStick" || contact.bodyA.node?.name == "bottomStick" || contact.bodyA.node?.name == "leftStick" || contact.bodyA.node?.name == "rightStick") && contact.bodyB.node?.name == "ball") {
             score = score + 10
