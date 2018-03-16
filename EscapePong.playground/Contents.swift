@@ -3,39 +3,36 @@ import AppKit
 import PlaygroundSupport
 
 class Scene: SKScene, SKPhysicsContactDelegate {
-    /* Initialise all the main variables and contants.
-     */
+    // Initialise all the main variables and constants.
+    var score = 0
+    var lives = 6
     let Ball: UInt32 = 0x1 << 0
     let Block: UInt32 = 0x1 << 1
     let topStickI: UInt32 = 0x1 << 2
     let leftStickI: UInt32 = 0x1 << 3
     let rightStickI: UInt32 = 0x1 << 4
     let bottomStickI: UInt32 = 0x1 << 5
-    
-    var score = 0
-    var lives = 6
+    let verticalRand: CGFloat = CGFloat(arc4random_uniform(250) + 50)
+    let horizontalRand: CGFloat = CGFloat(arc4random_uniform(600) + 300)
 
+    var restartButton: NSButton?
+    var overLabel = NSTextField()
+    var scoreLabel = NSTextField()
+    var livesLabel = NSTextField()
     var ball = SKShapeNode(circleOfRadius: 30)
     var topStick = SKSpriteNode(color: .green, size: CGSize(width: 400, height: 50))
     var leftStick = SKSpriteNode(color: .green, size: CGSize(width: 50, height: 400))
     var rightStick = SKSpriteNode(color: .green, size: CGSize(width: 50, height: 400))
     var bottomStick = SKSpriteNode(color: .green, size: CGSize(width: 400, height: 50))
-    
-    let verticalRand: CGFloat = CGFloat(arc4random_uniform(250) + 50)
-    let horizontalRand: CGFloat = CGFloat(arc4random_uniform(600) + 300)
-    
-    var restartButton: NSButton?
-    var scoreLabel = NSTextField()
-    var livesLabel = NSTextField()
-    var overLabel = NSTextField()
-    var countDown = NSTextField()
-    
+
     var isOnBoarding = true
+    var disableMouseMove = false
     var nextSlide = 1
     var onBoardTitle = NSTextField()
     var onBoardDescription = NSTextField()
     var onBoardClick = NSTextField()
     
+    // Show onBoarding screens, and set the different titles and descriptions.
     func onBoarding() {
         if (isOnBoarding) {
             onBoardTitle.isBezeled = false;onBoardTitle.isEditable = false;onBoardTitle.drawsBackground = false;onBoardTitle.alignment = .center;onBoardTitle.font = NSFont.systemFont(ofSize: 60.0);onBoardTitle.textColor = NSColor.white
@@ -78,11 +75,13 @@ class Scene: SKScene, SKPhysicsContactDelegate {
             nextSlide += 1
         } else {
             beginGame()
+            disableMouseMove = true
         }
     }
     
+    // Begin game by removing onBoarding screen and adding all the elements, especially the ball.
     @objc func beginGame() {
-        if (isOnBoarding == false) {
+        if (!isOnBoarding) {
             onBoardTitle.removeFromSuperview()
             onBoardClick.removeFromSuperview()
             onBoardDescription.removeFromSuperview()
@@ -99,6 +98,7 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // Restart the game when restart button is pressed. Similar to beginGame(), also resets ball position/velocity.
     @objc func restartGame(event: NSEvent) {
         if (isOnBoarding == false) {
             overLabel.isHidden = true
@@ -117,6 +117,7 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // Most main functions - initialise different elements, paddles, labels, and buttons, then show onBoarding screen.
     override func didMove(to view: SKView) {
         let options = [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.inVisibleRect, NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.mouseMoved] as NSTrackingArea.Options
         let trackingArea = NSTrackingArea(rect:view.frame,options:options,owner:self,userInfo:nil)
@@ -219,11 +220,13 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         onBoarding()
     }
     
+    // If mouse is clicked, show next onBoarding screen, or begin game.
     override func mouseDown(with event: NSEvent) {
         if (isOnBoarding) {
             onBoarding()
-        } else {
+        } else if (nextSlide == 6){
             beginGame()
+            nextSlide = 0
         }
     }
     
