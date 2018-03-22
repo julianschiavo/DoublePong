@@ -2,69 +2,69 @@ import AppKit
 import SpriteKit
 import Foundation
 
-public class Interface: SKScene, SKPhysicsContactDelegate {
+public class Scene: SKScene, SKPhysicsContactDelegate {
     // Set the below variable to true to enable debug mode
     public var debug = true
     
     // Begin game by removing onBoarding screen and adding all the elements, especially the ball.
     @objc public func beginGame() {
-        if (!isOnBoarding) {
-            view?.showsFPS          = debug ? true : false
-            view?.showsDrawCount    = debug ? true : false
-            view?.showsNodeCount    = debug ? true : false
-            restartButton.frame     = NSRect(x: 28, y: -2, width: 45, height: 45)
-            addChilds(ball, topPaddle, bottomPaddle, leftPaddle, rightPaddle)
-            addSubviews(colorSlider, pausedLabel, livesLabel, overLabel, scoreLabel, tScoreLabel, restartButton, pauseButton, colorPanel)
-            removeSubviews(onBoardTitle, onBoardDescription, onBoardClick)
-        }
+        if (isOnBoarding) { return }
+        view?.showsFPS              = debug ? true : false
+        view?.showsDrawCount        = debug ? true : false
+        view?.showsNodeCount        = debug ? true : false
+        restartButton.frame         = NSRect(x: 28, y: -2, width: 45, height: 45)
+        pauseButtonTB.isHidden      = false
+        restartButtonTB.isHidden    = false
+        addChilds(ball, topPaddle, bottomPaddle, leftPaddle, rightPaddle)
+        addSubviews(colorSlider, pausedLabel, livesLabel, overLabel, scoreLabel, tScoreLabel, restartButton, pauseButton, colorPanel)
+        removeSubviews(onBoardTitle, onBoardDescription, onBoardClick)
     }
     
     // Pause/play the game when pause button is pressed.
     @objc public func pauseGame() {
-        if (!isOnBoarding && !gamePaused && overLabel.isHidden) {
-            removeChilds(ball)
-            gamePaused              = true
-            pauseButton.image       = NSImage(named: NSImage.Name(rawValue: "play.png"))!
-            colorPanel.isHidden     = false
-            colorSlider.isHidden    = false
-            pausedLabel.isHidden    = false
-        } else if (!isOnBoarding && gamePaused) {
+        if (isOnBoarding || !overLabel.isHidden) { return }
+        gamePlaying             = gamePlaying ? false : true
+        if (gamePlaying && overLabel.isHidden) {
             addChilds(ball)
-            gamePaused              = false
-            pauseButton.image       = NSImage(named: NSImage.Name(rawValue: "pause.png"))!
-            colorPanel.isHidden     = true
-            colorSlider.isHidden    = true
-            pausedLabel.isHidden    = true
+        } else if (!gamePlaying) {
+            removeChilds(ball)
         }
+        pauseButton.image       = gamePlaying ? NSImage(named: NSImage.Name(rawValue: "pause.png"))! : NSImage(named: NSImage.Name(rawValue: "play.png"))!
+        pauseButtonTB.image     = gamePlaying ? NSImage(named: NSImage.Name.touchBarPauseTemplate)! : NSImage(named: NSImage.Name.touchBarPlayTemplate)!
+        colorPanel.isHidden     = gamePlaying ? true : false
+        colorSlider.isHidden    = gamePlaying ? true : false
+        pausedLabel.isHidden    = gamePlaying ? true : false
     }
     
     // Restart the game when restart button is pressed. Similar to beginGame(), also resets ball position/velocity.
     @objc public func restartGame () {
-        if (!isOnBoarding && !gamePaused) {
-            removeChilds(ball, topPaddle, bottomPaddle, leftPaddle, rightPaddle)
-            removeSubviews(scoreLabel)
-            
-            score                       = 1
-            lives                       = 5
-            overLabel.isHidden          = true
-            tScoreLabel.isHidden        = true
-            livesLabel.isHidden         = false
-            colorPanel.isHidden         = true
-            colorSlider.isHidden        = true
-            pauseButton.isHidden        = false
-            ball.physicsBody!.velocity  = CGVector(dx: 400, dy: 400)
-            ball.position               = CGPoint(x: 0.6 * self.size.width, y: 0.6 * self.size.height)
-            restartButton.frame         = NSRect(x: 28, y: -2, width: 45, height: 45)
-            
-            setLabel(label: scoreLabel, value: String(score), which: "scoreLabel")
-            setLabel(label: livesLabel, value: String(repeating: "❤️", count: lives), which: "livesLabel")
-            addSubviews(scoreLabel)
-            addChilds(ball, topPaddle, bottomPaddle, leftPaddle, rightPaddle)
-        }
+        if (isOnBoarding || !gamePlaying) { return }
+        removeChilds(ball, topPaddle, bottomPaddle, leftPaddle, rightPaddle)
+        removeSubviews(scoreLabel)
+        
+        score                       = 0
+        lives                       = 5
+        overLabel.isHidden          = true
+        tScoreLabel.isHidden        = true
+        livesLabel.isHidden         = false
+        colorPanel.isHidden         = true
+        colorSlider.isHidden        = true
+        pauseButton.isHidden        = false
+        pauseButtonTB.isHidden      = false
+        pausedLabel.isHidden        = true
+        ball.physicsBody!.velocity  = CGVector(dx: 400, dy: 400)
+        ball.position               = CGPoint(x: 0.6 * self.size.width, y: 0.6 * self.size.height)
+        restartButton.frame         = NSRect(x: 28, y: -2, width: 45, height: 45)
+        
+        setLabel(label: scoreLabel, value: String(score), which: "scoreLabel")
+        setLabel(label: livesLabel, value: String(repeating: "❤️", count: lives), which: "livesLabel")
+        addSubviews(scoreLabel)
+        addChilds(ball, topPaddle, bottomPaddle, leftPaddle, rightPaddle)
     }
     
     // If the space bar is pressed, pause the game
     override public func keyUp(with event: NSEvent) {
+        if (isOnBoarding) { return }
         let s: String = String(returnChar(event: event)!)
         switch(s){
         case " ":
@@ -89,30 +89,30 @@ public class Interface: SKScene, SKPhysicsContactDelegate {
     
     // If mouse is moved, move all paddles based on new mouse location.
     override public func mouseMoved(with event: NSEvent) {
-        if (!gamePaused) {
-            let tLocation           = event.location(in: self)
-            topPaddle.position.x    = tLocation.x
-            leftPaddle.position.y   = tLocation.y
-            rightPaddle.position.y  = tLocation.y
-            bottomPaddle.position.x = tLocation.x
-        }
+        if (isOnBoarding || !gamePlaying) { return }
+        let tLocation           = event.location(in: self)
+        topPaddle.position.x    = tLocation.x
+        leftPaddle.position.y   = tLocation.y
+        rightPaddle.position.y  = tLocation.y
+        bottomPaddle.position.x = tLocation.x
     }
     
-    @objc public func updateColor() {
-        // Convert slider value to an Int, then convert it to one of the possible colors as a NSColor
-        let rgbValue        = colorArray[Int(colorSlider.floatValue)]
-        let red             = CGFloat((rgbValue & 0xFF0000) >> 16) / 0xFF
-        let green           = CGFloat((rgbValue & 0x00FF00) >> 8) / 0xFF
-        let blue            = CGFloat(rgbValue & 0x0000FF) / 0xFF
-        let newColor        = NSColor(red: red, green: green, blue: blue, alpha: CGFloat(1.0))
+    @objc public func getColor() {
+        // Use the custom NSColor init to quickly get a NSColor from the RGB
+        let newColor = NSColor(rgb: colorArray[Int(colorSlider.floatValue)])
         
+        // Send the new color to updateColor() to update all the elements to the new color
+        setColor(color: newColor)
+    }
+    
+    @objc public func setColor(color: NSColor) {
         // Set all the nodes to the new color
-        ball.fillColor      = newColor
-        ball.strokeColor    = newColor
-        topPaddle.color     = newColor
-        bottomPaddle.color  = newColor
-        leftPaddle.color    = newColor
-        rightPaddle.color   = newColor
+        ball.fillColor      = color
+        ball.strokeColor    = color
+        topPaddle.color     = color
+        bottomPaddle.color  = color
+        leftPaddle.color    = color
+        rightPaddle.color   = color
     }
     
     // Show onBoarding (instruction/initial) screens, and set the different titles and descriptions.
@@ -157,7 +157,7 @@ public class Interface: SKScene, SKPhysicsContactDelegate {
         self.size                               = CGSize(width: 1920, height: 1080)
         self.physicsWorld.gravity               = CGVector(dx: 0, dy: 0)
         self.physicsWorld.contactDelegate       = self
-        let sceneBound                          = SKPhysicsBody(edgeLoopFrom: self.frame)
+        let sceneBound                          = SKPhysicsBody(edgeLoopFrom: CGRect(origin: CGPoint(x: 50, y: 50), size: CGSize(width: 1860, height: 1020)))
         sceneBound.friction                     = 0
         sceneBound.restitution                  = 0
         self.physicsBody                        = sceneBound
@@ -185,9 +185,9 @@ public class Interface: SKScene, SKPhysicsContactDelegate {
         bottomPaddle                = createNode(color: randomColor, size: CGSize(width: 600, height: 50), name: "bottomPaddle", dynamic: false, friction: 0, restitution: 1, cBM: bottomPaddleI, cTBM: Ball)
         bottomPaddle.position       = CGPoint(x: horizontalRand, y: frame.minY + bottomPaddle.size.height)
         leftPaddle                  = createNode(color: randomColor, size: CGSize(width: 50, height: 600), name: "leftPaddle", dynamic: false, friction: 0, restitution: 1, cBM: leftPaddleI, cTBM: Ball)
-        leftPaddle.position         = CGPoint(x: frame.minX + 50, y: frame.maxY - leftPaddle.size.height - verticalRand)
+        leftPaddle.position         = CGPoint(x: frame.minX + leftPaddle.size.width, y: frame.maxY - leftPaddle.size.height - verticalRand)
         rightPaddle                 = createNode(color: randomColor, size: CGSize(width: 50, height: 600), name: "rightPaddle", dynamic: false, friction: 0, restitution: 1, cBM: rightPaddleI, cTBM: Ball)
-        rightPaddle.position        = CGPoint(x: frame.maxX - 50, y: frame.maxY - rightPaddle.size.height - verticalRand)
+        rightPaddle.position        = CGPoint(x: frame.maxX - rightPaddle.size.width, y: frame.maxY - rightPaddle.size.height - verticalRand)
         
         // Create all the labels using createLabel()
         scoreLabel                  = createLabel(title: String(score), size: 20.0, color: NSColor.white, hidden: false)
@@ -214,7 +214,7 @@ public class Interface: SKScene, SKPhysicsContactDelegate {
         colorPanel.layer?.masksToBounds     = true
         colorPanel.canDrawSubviewsIntoLayer = true
         
-        colorSlider                         = NSSlider(value: 0.5, minValue: 0.5, maxValue: 13.5, target: self, action: #selector(updateColor))
+        colorSlider                         = NSSlider(value: 0.5, minValue: 0.5, maxValue: 13.5, target: self, action: #selector(getColor))
         colorSlider.frame                   = NSRect(x: ((self.view?.frame.width)! / 2) - 175, y: ((self.view?.frame.height)! / 2) - 40, width: 350, height: 25 )
         colorSlider.isHidden                = true
         
@@ -232,6 +232,14 @@ public class Interface: SKScene, SKPhysicsContactDelegate {
             score = score + abs(Int((ball.physicsBody?.velocity.dy)!/40))
             setLabel(label: scoreLabel, value: String(score), which: "scoreLabel")
             
+            // Add random obstacles after 500 points to break patterns and make the gameplay better
+            if (score > 100) {
+                removeChilds(randomObstacle)
+                let size = CGSize(width: CGFloat(randomNumber(inRange: 50...400)), height: CGFloat(randomNumber(inRange: 50...100)))
+                randomObstacle = createNode(color: NSColor.red, size: size, name: "obstacle", dynamic: false, friction: 0, restitution: 1, cBM: randomObstacleI, cTBM: Ball, position: CGPoint(x: CGFloat(randomNumber(inRange: 100...Int(frame.maxX - size.width - 100))), y: CGFloat(randomNumber(inRange: 100...Int(frame.maxY - size.height - 100)))))
+                addChilds(randomObstacle)
+            }
+            
             if (score > 700) {
                 topPaddle.size.width = 500
                 leftPaddle.size.height = 500
@@ -248,12 +256,15 @@ public class Interface: SKScene, SKPhysicsContactDelegate {
                 // Player still has more than 1 life
                 lives = lives - 1
                 return setLabel(label: livesLabel, value: String(repeating: "❤️", count: lives), which: "livesLabel")
-            } else if (!gamePaused) {
+            } else if (gamePlaying) {
+                if (score > 500) { removeChilds(randomObstacle) }
+                
                 // Player doesn't have any lives left
                 overLabel.isHidden          = false
                 livesLabel.isHidden         = true
                 tScoreLabel.isHidden        = false
                 pauseButton.isHidden        = true
+                pauseButtonTB.isHidden      = true
                 restartButton.frame         = NSRect(x: ((self.view?.frame.width)! / 2) - 30, y: (((self.view?.frame.height)! / 2) - 30) - 70, width: 60, height: 60)
                 removeChilds(ball, topPaddle, leftPaddle, rightPaddle, bottomPaddle)
                 
