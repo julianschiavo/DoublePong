@@ -1,21 +1,20 @@
 import AppKit
 import SpriteKit
 import Foundation
+import AVFoundation
 
 // Initialise Bit Masks and the scene
 public let scene               = Scene()
 public let Ball:               UInt32 = 0x1 << 0
-public let Block:              UInt32 = 0x1 << 1
-public let topPaddleI:         UInt32 = 0x1 << 2
-public let leftPaddleI:        UInt32 = 0x1 << 3
-public let rightPaddleI:       UInt32 = 0x1 << 4
-public let bottomPaddleI:      UInt32 = 0x1 << 5
+public let topPaddleI:         UInt32 = 0x1 << 1
+public let leftPaddleI:        UInt32 = 0x1 << 2
+public let rightPaddleI:       UInt32 = 0x1 << 3
+public let bottomPaddleI:      UInt32 = 0x1 << 4
 public let randomObstacleI:    UInt32 = 0x1 << 5
 
 // Initialise main variables
 public var score               = 0
 public var lives               = 5
-public let amount              = CGFloat(7)
 public var topScore            = 0
 public var nextSlide           = 1
 public let colorArray          = [ 0x000000, 0xfe0000, 0xff7900, 0xffb900, 0xffde00, 0xfcff00, 0xd2ff00, 0x05c000, 0x00c0a7, 0x0600ff, 0x6700bf, 0x9500c0, 0xbf0199, 0xffffff ]
@@ -34,18 +33,11 @@ public var pausedLabel         = NSTextField()
 public var pauseButton         = NSButton()
 public var tScoreLabel         = NSTextField()
 public var onBoardTitle        = NSTextField()
-public var onBoardClick        = NSTextField()
+public var onBoardClick        = NSButton()
 public var restartButton       = NSButton()
+public var restartButtonBig       = NSButton()
 //public var settingsButton      = NSButton()
 public var onBoardDescription  = NSTextField()
-
-// Initialise touch bar variables, including touch bar items and buttons
-public var touchBar            = NSTouchBar()
-public var pauseTB             = NSCustomTouchBarItem(identifier: .pause)
-public var restartTB           = NSCustomTouchBarItem(identifier: .restart)
-public var pauseButtonTB       = NSButton()
-public var restartButtonTB     = NSButton()
-public var colorPickerTB       = NSColorPickerTouchBarItem(identifier: .picker)
 
 // Initialise SKNode variables (paddles and ball)
 public var ball                = SKShapeNode(circleOfRadius: 30)
@@ -54,6 +46,11 @@ public var leftPaddle          = SKSpriteNode()
 public var rightPaddle         = SKSpriteNode()
 public var bottomPaddle        = SKSpriteNode()
 public var randomObstacle      = SKSpriteNode()
+
+// Prepare the pong, game over, and wall sounds with SKAction
+public let pongSound           = SKAction.playSoundFileNamed("pong", waitForCompletion: false)
+public let overSound           = SKAction.playSoundFileNamed("over", waitForCompletion: false)
+public let wallSound           = SKAction.playSoundFileNamed("wall", waitForCompletion: false)
 
 public func randomNumber<T : SignedInteger>(inRange range: ClosedRange<T> = 1...6) -> T {
     let length = Int64(range.upperBound - range.lowerBound + 1)
@@ -142,21 +139,42 @@ public extension SKScene {
     }
     
     // Creates a NSButton with a NSButtonCell
-    public func createButton(image: NSImage, action: Selector, transparent: Bool = true, x: CGFloat = 0, y: CGFloat = 0, width: CGFloat = 0, height: CGFloat = 0, hidden: Bool = false) -> NSButton {
-        let button                  = NSButton(image: image, target: self, action: action)
-        button.isHidden             = hidden
-        button.isTransparent        = transparent
-        button.frame                = NSRect(x: x, y: y, width: width, height: height)
-        
-        let buttonCell:NSButtonCell = button.cell as! NSButtonCell
-        buttonCell.bezelStyle       = NSButton.BezelStyle.rounded
+    public func createButton(title: String = "Empty", size: Int = 18, color: NSColor = NSColor.clear, image: NSImage? = nil, action: Selector, transparent: Bool = true, x: CGFloat = 0, y: CGFloat = 0, width: CGFloat = 0, height: CGFloat = 0, hidden: Bool = false, radius: Int = 0) -> NSButton {
+        let button                      = image != nil ? NSButton(image: (image)!, target: self, action: action) : NSButton(title: title, target: self, action: action)
+        button.isHidden                 = hidden
+        button.isTransparent            = transparent
+        button.frame                    = NSRect(x: x, y: y, width: width, height: height)
+        if (title != "Empty") {
+            button.wantsLayer               = true
+            button.isBordered               = false
+            button.layer?.cornerRadius      = CGFloat(radius)
+            button.layer?.masksToBounds     = true
+            button.layer?.backgroundColor   = color.cgColor
+            if let mutableAttributedTitle   = button.attributedTitle.mutableCopy() as? NSMutableAttributedString {
+                mutableAttributedTitle.addAttribute(.foregroundColor, value: NSColor.white, range: NSRange(location: 0, length: mutableAttributedTitle.length))
+                mutableAttributedTitle.addAttribute(.font, value: NSFont.systemFont(ofSize: CGFloat(size)), range: NSRange(location: 0, length: mutableAttributedTitle.length))
+                button.attributedTitle      = mutableAttributedTitle
+            }
+        }
+        let buttonCell:NSButtonCell     = button.cell as! NSButtonCell
+        buttonCell.bezelStyle           = NSButton.BezelStyle.rounded
         return button
     }
     
+    // Creates a NSButton with a NSButtonCell
+    public func updateButton(button: NSButton, title: String, size: Int = 18) {
+        button.title = title
+        if let mutableAttributedTitle   = button.attributedTitle.mutableCopy() as? NSMutableAttributedString {
+            mutableAttributedTitle.addAttribute(.foregroundColor, value: NSColor.white, range: NSRange(location: 0, length: mutableAttributedTitle.length))
+            mutableAttributedTitle.addAttribute(.font, value: NSFont.systemFont(ofSize: CGFloat(size)), range: NSRange(location: 0, length: mutableAttributedTitle.length))
+            button.attributedTitle      = mutableAttributedTitle
+        }
+    }
+    
     // Quickly creates a NSTextField with all needed options
-    public func createLabel(title: String, size: CGFloat, color: NSColor, hidden: Bool = false, x: Double? = nil, y: Double? = nil, width: Double? = nil, height: Double? = nil) -> NSTextField {
+    public func createLabel(title: String, size: CGFloat, color: NSColor, hidden: Bool = false, bold: Bool = false, x: Double? = nil, y: Double? = nil, width: Double? = nil, height: Double? = nil) -> NSTextField {
         let label               = NSTextField()
-        label.font              = NSFont.systemFont(ofSize: size)
+        label.font              = bold ? NSFont.boldSystemFont(ofSize: size) : NSFont.systemFont(ofSize: size)
         label.isHidden          = hidden
         label.isBezeled         = false
         label.textColor         = color
@@ -178,7 +196,7 @@ public extension SKScene {
     }
     
     // Sets a label to the specified value, then sizes and positions it perfectly
-    public func setLabel(label: NSTextField, value: String, which: String?) {
+    public func setLabel(label: NSTextField, value: String, which: String? = nil) {
         label.stringValue = value
         label.sizeToFit()
         if (which == "scoreLabel") {
@@ -190,3 +208,4 @@ public extension SKScene {
         }
     }
 }
+
