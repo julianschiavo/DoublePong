@@ -3,6 +3,7 @@ import SpriteKit
 import Foundation
 import AVFoundation
 
+// Initialise all variables except for touch bar, intro, sound, and image variables
 // Initialise Bit Masks and the scene
 public let scene               = Scene()
 public let Ball:               UInt32 = 0x1 << 0
@@ -12,32 +13,8 @@ public let rightPaddleI:       UInt32 = 0x1 << 3
 public let bottomPaddleI:      UInt32 = 0x1 << 4
 public let randomObstacleI:    UInt32 = 0x1 << 5
 
-// Initialise main variables
-public var score               = 0
-public var lives               = 5
-public var topScore            = 0
-public var nextSlide           = 1
-public let colorArray          = [ 0x000000, 0xfe0000, 0xff7900, 0xffb900, 0xffde00, 0xfcff00, 0xd2ff00, 0x05c000, 0x00c0a7, 0x0600ff, 0x6700bf, 0x9500c0, 0xbf0199, 0xffffff ]
-public var gamePlaying         = true
-public var isOnBoarding        = true
-public let verticalRand        = CGFloat(arc4random_uniform(250) + 50)
-public let horizontalRand      = CGFloat(arc4random_uniform(600) + 300)
-
-// Initialise most text fields, sliders, image views, and buttons
-public var overLabel           = NSTextField()
-public var scoreLabel          = NSTextField()
-public var livesLabel          = NSTextField()
-public var colorPanel          = NSImageView()
-public var colorSlider         = NSSlider()
-public var pausedLabel         = NSTextField()
-public var pauseButton         = NSButton()
-public var tScoreLabel         = NSTextField()
-public var onBoardTitle        = NSTextField()
-public var onBoardClick        = NSButton()
-public var restartButton       = NSButton()
-public var restartButtonBig       = NSButton()
-//public var settingsButton      = NSButton()
-public var onBoardDescription  = NSTextField()
+// Initislise preferences variables
+public let prefs = UserDefaults.standard
 
 // Initialise SKNode variables (paddles and ball)
 public var ball                = SKShapeNode(circleOfRadius: 30)
@@ -47,11 +24,34 @@ public var rightPaddle         = SKSpriteNode()
 public var bottomPaddle        = SKSpriteNode()
 public var randomObstacle      = SKSpriteNode()
 
-// Prepare the pong, game over, and wall sounds with SKAction
-public let pongSound           = SKAction.playSoundFileNamed("pong", waitForCompletion: false)
-public let overSound           = SKAction.playSoundFileNamed("over", waitForCompletion: false)
-public let wallSound           = SKAction.playSoundFileNamed("wall", waitForCompletion: false)
+// Initialise main variables
+public var score               = 0
+public var lives               = 5
+public var topScore:           Int = prefs.object(forKey: "topScore") != nil ? prefs.object(forKey: "topScore") as! Int : 0
+public let colorArray          = [ 0x000000, 0xfe0000, 0xff7900, 0xffb900, 0xffde00, 0xfcff00, 0xd2ff00, 0x05c000, 0x00c0a7, 0x0600ff, 0x6700bf, 0x9500c0, 0xbf0199, 0xffffff ]
+public var gamePlaying         = true
+public let verticalRand        = CGFloat(randomNumber(inRange: 300...335))
+public let horizontalRan       = CGFloat(randomNumber(inRange: 100...540))
+public var soundsEnabled:      Bool = prefs.object(forKey: "soundsEnabled") != nil ? prefs.object(forKey: "soundsEnabled") as! Bool : true
 
+// Initialise buttons
+public var muteButton          = NSButton()
+public var pauseButton         = NSButton()
+public var restartButton       = NSButton()
+public var pauseButtonBig      = NSButton()
+public var restartButtonBig    = NSButton()
+
+// Initialise text fields and other controls
+public var overLabel           = NSTextField()
+public var scoreLabel          = NSTextField()
+public var livesLabel          = NSTextField()
+public var pausedLabel         = NSTextField()
+public var curScoreLabel       = NSTextField()
+public var topScoreLabel       = NSTextField()
+public var colorPanel          = NSImageView()
+public var colorSlider         = NSSlider()
+
+// Return a random number inside a range
 public func randomNumber<T : SignedInteger>(inRange range: ClosedRange<T> = 1...6) -> T {
     let length = Int64(range.upperBound - range.lowerBound + 1)
     let value = Int64(arc4random()) % length + Int64(range.lowerBound)
@@ -172,13 +172,13 @@ public extension SKScene {
     }
     
     // Quickly creates a NSTextField with all needed options
-    public func createLabel(title: String, size: CGFloat, color: NSColor, hidden: Bool = false, bold: Bool = false, x: Double? = nil, y: Double? = nil, width: Double? = nil, height: Double? = nil) -> NSTextField {
+    public func createLabel(title: String, align: Int = 2, size: CGFloat, color: NSColor, hidden: Bool = false, bold: Bool = false, x: Double? = nil, y: Double? = nil, width: Double? = nil, height: Double? = nil) -> NSTextField {
         let label               = NSTextField()
         label.font              = bold ? NSFont.boldSystemFont(ofSize: size) : NSFont.systemFont(ofSize: size)
         label.isHidden          = hidden
         label.isBezeled         = false
         label.textColor         = color
-        label.alignment         = .center
+        label.alignment         = align == 2 ? .center : (align == 3 ? .right : .left)
         label.isEditable        = false
         label.stringValue       = title
         label.drawsBackground   = false
@@ -193,19 +193,6 @@ public extension SKScene {
             label.sizeToFit()
         }
         return label
-    }
-    
-    // Sets a label to the specified value, then sizes and positions it perfectly
-    public func setLabel(label: NSTextField, value: String, which: String? = nil) {
-        label.stringValue = value
-        label.sizeToFit()
-        if (which == "scoreLabel") {
-            label.frame.origin = CGPoint(x: 9, y: (self.view?.frame.maxY)! - scoreLabel.frame.height - 9)
-        } else if (which == "livesLabel") {
-            label.frame.origin = CGPoint(x: (self.view?.frame.maxX)! - livesLabel.frame.width - 5, y: (self.view?.frame.maxY)! - livesLabel.frame.height - 12)
-        } else if (which == "tScoreLabel") {
-            label.frame.origin = CGPoint(x: ((self.view?.frame.width)! / 2) - (label.frame.width / 2), y: (((self.view?.frame.height)! / 2) - 30) - 10)
-        }
     }
 }
 

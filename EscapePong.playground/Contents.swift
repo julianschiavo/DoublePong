@@ -14,3 +14,13 @@ view.addSubview(skView)
 
 // Set the playground liveview to the view that was just created
 PlaygroundPage.current.liveView = view
+
+// To reset preferences, change resetPreferences to false, run the playground, then run it again to see the updated preferences
+var resetPreferences = true
+if (resetPreferences) {
+    prefs.set(nil, forKey: "isIntro")
+    prefs.set(nil, forKey: "nextIntro")
+    prefs.set(nil, forKey: "topScore")
+    prefs.set(nil, forKey: "soundsEnabled")
+}
+
