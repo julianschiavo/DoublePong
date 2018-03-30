@@ -170,7 +170,7 @@ public class Scene: SKScene, SKPhysicsContactDelegate {
         
         // Create all the labels using createLabel()
         // These are quite complicated because of positioning and sizing
-        scoreLabel                  = createLabel(title: String(score), align: 1, size: 20.0, color: NSColor.white, hidden: false, x: 9, y: Double((self.view?.frame.maxY)! - 24 - 9), width: 42, height: 24)
+        scoreLabel                  = createLabel(title: String(score), align: 1, size: 20.0, color: NSColor.white, hidden: false, x: 9, y: Double((self.view?.frame.maxY)! - 24 - 9), width: 100, height: 24)
         curScoreLabel               = createLabel(title: "Score: " + String(topScore), size: 25.0, color: NSColor.white, hidden: true, x: Double((self.view?.frame.width)! / 2 - 260), y: Double((self.view?.frame.height)! / 2 - 65), width: 520, height: 60)
         topScoreLabel               = createLabel(title: "High Score: " + String(topScore), size: 25.0, color: NSColor.white, hidden: true, x: Double((self.view?.frame.width)! / 2 - 260), y: Double((self.view?.frame.height)! / 2 - 100), width: 520, height: 60)
         livesLabel                  = createLabel(title: String(repeating: "❤️", count: lives), align: 3, size: 15.0, color: NSColor.white, hidden: false, x: Double((self.view?.frame.maxX)! - 113 - 9), y: Double((self.view?.frame.maxY)! - 19 - 9), width: 113, height: 19)
