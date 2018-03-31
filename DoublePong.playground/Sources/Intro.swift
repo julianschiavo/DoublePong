@@ -27,7 +27,7 @@ public extension Scene {
             if nextIntro == 1 {
                 introTitle                      = createLabel(title: "Welcome", size: 60.0, color: NSColor.white, hidden: false, bold: true)
                 introTitle.frame                = NSRect(x: ((self.view?.frame.width)! / 2) - 200, y: 90 + ((self.view?.frame.height)! / 2) - 36, width: 400, height: 72)
-                introDescription                = createLabel(title: "Welcome to DoublePong, Pong - with even more paddles!", size: 20.0, color: NSColor.white, hidden: false)
+                introDescription                = createLabel(title: "Welcome to DoublePong - Pong, with even more paddles.", size: 20.0, color: NSColor.white, hidden: false)
                 introDescription.frame          = NSRect(x: ((self.view?.frame.width)! / 2) - 275, y: (((self.view?.frame.height)! / 2) - 50) - 20, width: 550, height: 100)
                 introButton                     = createButton(title: "Continue", color: NSColor(red: 0.0, green: 0.478431, blue: 1.0, alpha: 1.0), image: nil, action: #selector(self.changeSlide), transparent: false, x: ((self.view?.frame.width)! / 2) - 140, y: (((self.view?.frame.height)! / 2) - 8) - 130, width: 280, height: 45, radius: 18)
                 introProgress.style             = NSProgressIndicator.Style.bar
@@ -41,7 +41,7 @@ public extension Scene {
                 introDescription.stringValue    = "There are 4 paddles, positioned on each edge of the screen. Move your cursor to move the paddles, and try to block the ball from hitting the edges."
                 introProgress.increment(by: 1)
             } else if nextIntro == 3 { introTitle.stringValue = "Difficulty"
-                introDescription.stringValue    = "The game will continously get faster and harder, by adding invisible obstacles and making the paddles smaller after a while."
+                introDescription.stringValue    = "The game will continously get faster and harder, by adding invisible obstacles and reducing the size of the paddles after a while."
                 introProgress.increment(by: 1)
             } else if nextIntro == 4 { introTitle.stringValue = "Good Luck"
                 introDescription.stringValue    = "Press Play below to begin playing."

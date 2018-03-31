@@ -42,7 +42,7 @@ extension NSView: NSTouchBarDelegate {
     override open func makeTouchBar() -> NSTouchBar? {
         touchBar                            = NSTouchBar()
         touchBar?.delegate                  = self
-        touchBar?.defaultItemIdentifiers    = [.fixedSpaceLarge, .score, .flexibleSpace, .mute, .pause, .restart, .picker]
+        touchBar?.defaultItemIdentifiers    = [.fixedSpaceLarge, .score, .flexibleSpace, .pause, .restart, .mute, .picker]
         touchBar?.customizationIdentifier   = .master
         return touchBar
     }

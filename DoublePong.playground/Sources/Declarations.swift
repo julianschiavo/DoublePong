@@ -30,8 +30,8 @@ public var lives               = 5
 public var topScore:           Int = prefs.object(forKey: "topScore") != nil ? prefs.object(forKey: "topScore") as! Int : 0
 public let colorArray          = [ 0x000000, 0xfe0000, 0xff7900, 0xffb900, 0xffde00, 0xfcff00, 0xd2ff00, 0x05c000, 0x00c0a7, 0x0600ff, 0x6700bf, 0x9500c0, 0xbf0199, 0xffffff ]
 public var gamePlaying         = true
-public let verticalRand        = CGFloat(randomNumber(inRange: 300...335))
-public let horizontalRan       = CGFloat(randomNumber(inRange: 100...540))
+public let verticalRand        = CGFloat(randomNumber(inRange: 325...755))
+public let horizontalRan       = CGFloat(randomNumber(inRange: 325...1595))
 public var soundsEnabled:      Bool = prefs.object(forKey: "soundsEnabled") != nil ? prefs.object(forKey: "soundsEnabled") as! Bool : true
 
 // Initialise buttons
@@ -50,6 +50,18 @@ public var curScoreLabel       = NSTextField()
 public var topScoreLabel       = NSTextField()
 public var colorPanel          = NSImageView()
 public var colorSlider         = NSSlider()
+
+// Prepare the sounds with SKAction
+public let pongSound           = SKAction.playSoundFileNamed("pong", waitForCompletion: false)
+public let overSound           = SKAction.playSoundFileNamed("over", waitForCompletion: false)
+public let wallSound           = SKAction.playSoundFileNamed("wall", waitForCompletion: false)
+
+// Create images by inverting the colors of the template images (this reduces file size as less images need to be included in the playground)
+public var playImage:          NSImage { return NSImage(named: NSImage.Name.touchBarPlayTemplate)!.invert()! }
+public var pauseImage:         NSImage { return NSImage(named: NSImage.Name.touchBarPauseTemplate)!.invert()! }
+public var mutedImage:         NSImage { return NSImage(named: NSImage.Name.touchBarAudioOutputMuteTemplate)!.invert()! }
+public var replayImage:        NSImage { return NSImage(named: NSImage.Name.touchBarRefreshTemplate)!.invert()! }
+public var unmutedImage:       NSImage { return NSImage(named: NSImage.Name.touchBarVolumeUpTemplate)!.invert()! }
 
 // Return a random number inside a range
 public func randomNumber<T : SignedInteger>(inRange range: ClosedRange<T> = 1...6) -> T {
@@ -86,6 +98,21 @@ public func createColorList(array: [Int]) -> NSColorList {
         newColorList.insertColor(NSColor(rgb: color), key: NSColor.Name(String(color)), at: i)
     }
     return newColorList
+}
+
+// Add NSImage extension to quickly invert colors on an image
+public extension NSImage {
+    public func invert() -> NSImage? {
+        let cgImage = self.cgImage(forProposedRect: nil, context: nil, hints: nil)
+        let ciImage = CoreImage.CIImage(cgImage: cgImage!)
+        guard let filter = CIFilter(name: "CIColorInvert") else { return nil }
+        filter.setDefaults()
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        let context = CIContext(options: nil)
+        guard let outputImage = filter.outputImage else { return nil }
+        guard let outputImageCopy = context.createCGImage(outputImage, from: outputImage.extent) else { return nil }
+        return NSImage(cgImage: outputImageCopy, size: NSSize(width:outputImageCopy.width, height:outputImageCopy.height))
+    }
 }
 
 // Creates a SKSpriteNode with a SKPhysicsBody
