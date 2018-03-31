@@ -32,6 +32,8 @@ public class Scene: SKScene, SKPhysicsContactDelegate {
         bottomPaddle.color  = color
         leftPaddle.color    = color
         rightPaddle.color   = color
+        
+        prefs.set(color, forKey: "customColor")
     }
     
     // If the space bar is pressed, pause the game
@@ -138,10 +140,6 @@ public class Scene: SKScene, SKPhysicsContactDelegate {
         sceneBound.friction                     = 0
         sceneBound.restitution                  = 0
         self.physicsBody                        = sceneBound
-        
-        // Pick a random color for the initial paddle/ball color
-        let randomIndex                         = colorArray.random()
-        let randomColor                         = NSColor(red: CGFloat((randomIndex! & 0xFF0000) >> 16) / 0xFF, green: CGFloat((randomIndex! & 0x00FF00) >> 8) / 0xFF, blue: CGFloat(randomIndex! & 0x0000FF) / 0xFF, alpha: CGFloat(1.0))
         
         // Set the ball's position, color, and gravity settings
         ball.name                               = "ball"

@@ -13,8 +13,11 @@ public let rightPaddleI:       UInt32 = 0x1 << 3
 public let bottomPaddleI:      UInt32 = 0x1 << 4
 public let randomObstacleI:    UInt32 = 0x1 << 5
 
-// Initislise preferences variables
-public let prefs = UserDefaults.standard
+// Initislise preferences variables and pick a random color if a custom color isn't selected
+public let prefs               = UserDefaults.standard
+public let randomIndex         = colorArray.random()
+public let randomColor:        NSColor = /*prefs.getColor(key: "customColor") != nil ? prefs.getColor(key: "customColor") as! NSColor? : /*NSColor(red: CGFloat((randomIndex! & 0xFF0000) >> 16) / 0xFF, green: CGFloat((randomIndex! & 0x00FF00) >> 8) / 0xFF, blue: CGFloat(randomIndex! & 0x0000FF) / 0xFF, alpha: CGFloat(1.0))*/*/NSColor(rgb: randomIndex!)
+
 
 // Initialise SKNode variables (paddles and ball)
 public var ball                = SKShapeNode(circleOfRadius: 30)
@@ -89,6 +92,24 @@ public extension NSColor {
             blue: rgb & 0xFF
         )
     }
+}
+
+public extension UserDefaults {
+    public func getColor(key: String) -> NSColor? {
+        var color: NSColor?
+        if let colorData = data(forKey: key) {
+            color = NSKeyedUnarchiver.unarchiveObject(with: colorData) as? NSColor
+        }
+        return color
+    }
+    public func setColor(color: NSColor?, forKey key: String) {
+        var colorData: NSData?
+        if let color = color {
+            colorData = NSKeyedArchiver.archivedData(withRootObject: color) as NSData?
+        }
+        set(colorData, forKey: key)
+    }
+    
 }
 
 // Create a color list with an array of RGB colors
