@@ -33,7 +33,7 @@ public class Scene: SKScene, SKPhysicsContactDelegate {
         leftPaddle.color    = color
         rightPaddle.color   = color
         
-        prefs.set(color, forKey: "customColor")
+        prefs.setColor(color, forKey: "customColor")
     }
     
     // If the space bar is pressed, pause the game
@@ -55,8 +55,8 @@ public class Scene: SKScene, SKPhysicsContactDelegate {
         let location            = event.location(in: self)
         topPaddle.position.x    = (location.x < 1920 - 65 - topPaddle.size.width / 2 && location.x > topPaddle.size.width / 2 + 65) ? location.x : ((location.x > 1920 - 65 - topPaddle.size.width / 2) ? 1920 - 25 - topPaddle.size.width / 2 : topPaddle.size.width / 2 + 25)
         bottomPaddle.position.x = (location.x < 1920 - 65 - topPaddle.size.width / 2 && location.x > topPaddle.size.width / 2 + 65) ? location.x : ((location.x > 1920 - 65 - bottomPaddle.size.width / 2) ? 1920 - 25 - bottomPaddle.size.width / 2 : bottomPaddle.size.width / 2 + 25)
-        leftPaddle.position.y   = (location.y < 1080 - 65 - leftPaddle.size.height / 2 && location.y > leftPaddle.size.height / 2 + 65) ? location.y : ((location.y > 1080 - 65 - leftPaddle.size.height / 2) ? 1080 - 25 - leftPaddle.size.height / 2 : leftPaddle.size.height / 2 + 25)
-        rightPaddle.position.y  = (location.y < 1080 - 65 - rightPaddle.size.height / 2 && location.y > rightPaddle.size.height / 2 + 65) ? location.y : ((location.y > 1080 - 65 - rightPaddle.size.height / 2) ? 1080 - 25 - rightPaddle.size.height / 2 : rightPaddle.size.height / 2 + 25)
+        leftPaddle.position.y   = (location.y < 1080 - 65 - leftPaddle.size.height / 2 && location.y > leftPaddle.size.height / 2 + 65) ? location.y : ((location.y > 1080 - 65 - leftPaddle.size.height / 2) ? 1080 - 27 - leftPaddle.size.height / 2 : leftPaddle.size.height / 2 + 25)
+        rightPaddle.position.y  = (location.y < 1080 - 65 - rightPaddle.size.height / 2 && location.y > rightPaddle.size.height / 2 + 65) ? location.y : ((location.y > 1080 - 65 - rightPaddle.size.height / 2) ? 1080 - 27 - rightPaddle.size.height / 2 : rightPaddle.size.height / 2 + 25)
     }
     
     // Begin game by removing intro screen and adding all the objects
