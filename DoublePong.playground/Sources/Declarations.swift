@@ -4,6 +4,12 @@ import Foundation
 import AVFoundation
 
 // Initialise all variables except for touch bar, intro, sound, and image variables
+
+// Set debug to true to show debug elements
+public let debug               = false
+// Set reset to true to reset preferences on next run
+public let reset               = true
+
 // Initialise Bit Masks and the scene
 public let scene               = Scene()
 public let Ball:               UInt32 = 0x1 << 0
@@ -16,8 +22,7 @@ public let randomObstacleI:    UInt32 = 0x1 << 5
 // Initislise preferences variables and pick a random color if a custom color isn't selected
 public let prefs               = UserDefaults.standard
 public let randomIndex         = colorArray.random()
-public let randomColor:        NSColor = prefs.getColor(key: "customColor") != nil ? (prefs.getColor(key: "customColor"))! : NSColor(rgb: randomIndex!)
-
+public let randomColor:        NSColor = (!reset && prefs.getColor(key: "customColor") != nil) ? (prefs.getColor(key: "customColor"))! : NSColor(rgb: randomIndex!)
 
 // Initialise SKNode variables (paddles and ball)
 public var ball                = SKShapeNode(circleOfRadius: 30)
@@ -30,12 +35,12 @@ public var randomObstacle      = SKSpriteNode()
 // Initialise main variables
 public var score               = 0
 public var lives               = 5
-public var topScore:           Int = prefs.object(forKey: "topScore") != nil ? prefs.object(forKey: "topScore") as! Int : 0
+public var topScore:           Int = (!reset && prefs.object(forKey: "topScore") != nil) ? prefs.object(forKey: "topScore") as! Int : 0
 public let colorArray          = [ 0x000000, 0xfe0000, 0xff7900, 0xffb900, 0xffde00, 0xfcff00, 0xd2ff00, 0x05c000, 0x00c0a7, 0x0600ff, 0x6700bf, 0x9500c0, 0xbf0199, 0xffffff ]
 public var gamePlaying         = true
 public let verticalRand        = CGFloat(randomNumber(inRange: 325...755))
 public let horizontalRan       = CGFloat(randomNumber(inRange: 325...1595))
-public var soundsEnabled:      Bool = prefs.object(forKey: "soundsEnabled") != nil ? prefs.object(forKey: "soundsEnabled") as! Bool : true
+public var soundsEnabled:      Bool = (!reset && prefs.object(forKey: "soundsEnabled") != nil) ? prefs.object(forKey: "soundsEnabled") as! Bool : true
 
 // Initialise buttons
 public var muteButton          = NSButton()
@@ -94,6 +99,7 @@ public extension NSColor {
     }
 }
 
+// Allow easy storage of NSColors in UserDefaults
 public extension UserDefaults {
     public func getColor(key: String) -> NSColor? {
         var color: NSColor?

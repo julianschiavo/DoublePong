@@ -15,7 +15,6 @@ public var scoreLabelTB        = NSTextField(labelWithString: "0")
 public let colorList           = createColorList(array: colorArray)
 public var colorPickerTB       = NSColorPickerTouchBarItem(identifier: .picker)
 
-
 // Set the touch bar item identifiers for the pause button, restart button, and color picker
 extension NSTouchBarItem.Identifier {
     static let mute         = NSTouchBarItem.Identifier("com.js.DoublePong.muteButton")
@@ -30,7 +29,7 @@ extension NSTouchBar.CustomizationIdentifier {
     static let master       = NSTouchBar.CustomizationIdentifier("com.js.DoublePong.master")
 }
 
-// Only run the code below on Touch Bar supported systems
+// Create a custom touch bar, and add a pause button, mute button, restart button, and color picker
 @available(OSX 10.12.2, *)
 extension NSView: NSTouchBarDelegate {
     // Send the new color to the scene to set it on all elements

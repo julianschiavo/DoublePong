@@ -21,7 +21,7 @@ import AppKit
 import SpriteKit
 import PlaygroundSupport
 
-// Scene is initialized in Declarations
+// Use the scene that was initialized in Declarations
 scene.scaleMode = .aspectFit
 
 // Create the views for the scene
@@ -33,9 +33,8 @@ view.addSubview(skView)
 // Set the playground liveview to the view that was just created
 PlaygroundPage.current.liveView = view
 
-// To reset preferences, change resetPreferences to true, run the playground, then run it again to see the updated preferences
-var resetPreferences = true
-if (resetPreferences) {
+// If reset is true (in Declarations.swift), reset all the UserDefaults
+if reset {
     prefs.set(nil, forKey: "isIntro")
     prefs.set(nil, forKey: "topScore")
     prefs.set(nil, forKey: "nextIntro")
