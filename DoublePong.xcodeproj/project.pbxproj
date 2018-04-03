@@ -7,22 +7,68 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B91C082C20738CE50023A5F3 /* Intro.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91C082B20738CE50023A5F3 /* Intro.swift */; };
+		B91C082F2073AB340023A5F3 /* unmuted.png in Resources */ = {isa = PBXBuildFile; fileRef = B91C082D2073AB340023A5F3 /* unmuted.png */; };
+		B91C08302073AB340023A5F3 /* muted.png in Resources */ = {isa = PBXBuildFile; fileRef = B91C082E2073AB340023A5F3 /* muted.png */; };
+		B91C08342073ADB10023A5F3 /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = B91C08312073ADB10023A5F3 /* restart.png */; };
+		B91C08392073AEAB0023A5F3 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = B91C08372073AEAB0023A5F3 /* pause.png */; };
+		B91C083A2073AEAB0023A5F3 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = B91C08382073AEAB0023A5F3 /* play.png */; };
+		B91C083C2073AF400023A5F3 /* motion.png in Resources */ = {isa = PBXBuildFile; fileRef = B91C083B2073AF400023A5F3 /* motion.png */; };
+		B91C083E2073AF9C0023A5F3 /* touch.png in Resources */ = {isa = PBXBuildFile; fileRef = B91C083D2073AF9C0023A5F3 /* touch.png */; };
+		B97631972072FFE800E76B6F /* over.wav in Resources */ = {isa = PBXBuildFile; fileRef = B97631932072FFE700E76B6F /* over.wav */; };
+		B97631982072FFE800E76B6F /* over.wav in Resources */ = {isa = PBXBuildFile; fileRef = B97631932072FFE700E76B6F /* over.wav */; };
+		B97631992072FFE800E76B6F /* pong.wav in Resources */ = {isa = PBXBuildFile; fileRef = B97631942072FFE700E76B6F /* pong.wav */; };
+		B976319A2072FFE800E76B6F /* pong.wav in Resources */ = {isa = PBXBuildFile; fileRef = B97631942072FFE700E76B6F /* pong.wav */; };
+		B976319B2072FFE800E76B6F /* colors.png in Resources */ = {isa = PBXBuildFile; fileRef = B97631952072FFE800E76B6F /* colors.png */; };
+		B976319C2072FFE800E76B6F /* colors.png in Resources */ = {isa = PBXBuildFile; fileRef = B97631952072FFE800E76B6F /* colors.png */; };
+		B976319D2072FFE800E76B6F /* wall.wav in Resources */ = {isa = PBXBuildFile; fileRef = B97631962072FFE800E76B6F /* wall.wav */; };
+		B976319E2072FFE800E76B6F /* wall.wav in Resources */ = {isa = PBXBuildFile; fileRef = B97631962072FFE800E76B6F /* wall.wav */; };
+		B9C3CE0E20724765005C4AE7 /* Declarations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C3CE0D20724765005C4AE7 /* Declarations.swift */; };
+		B9C3CE102072479C005C4AE7 /* Intro.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C3CE0F2072479C005C4AE7 /* Intro.swift */; };
+		B9C3CE12207247D4005C4AE7 /* TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C3CE11207247D4005C4AE7 /* TouchBar.swift */; };
+		B9C3CE4A207275BA005C4AE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C3CE49207275BA005C4AE7 /* AppDelegate.swift */; };
+		B9C3CE50207275BA005C4AE7 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C3CE4F207275BA005C4AE7 /* Scene.swift */; };
+		B9C3CE52207275BA005C4AE7 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C3CE51207275BA005C4AE7 /* Main.swift */; };
+		B9C3CE55207275BA005C4AE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C3CE53207275BA005C4AE7 /* Main.storyboard */; };
+		B9C3CE57207275BB005C4AE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9C3CE56207275BB005C4AE7 /* Assets.xcassets */; };
+		B9C3CE5A207275BB005C4AE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C3CE58207275BB005C4AE7 /* LaunchScreen.storyboard */; };
+		B9C3CE60207277F0005C4AE7 /* Declarations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C3CE5F207277F0005C4AE7 /* Declarations.swift */; };
 		B9CB61082072440E0069B818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CB61072072440E0069B818 /* AppDelegate.swift */; };
-		B9CB610A2072440E0069B818 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B9CB61092072440E0069B818 /* GameScene.sks */; };
-		B9CB610C2072440E0069B818 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = B9CB610B2072440E0069B818 /* Actions.sks */; };
-		B9CB610E2072440E0069B818 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CB610D2072440E0069B818 /* GameScene.swift */; };
-		B9CB61102072440E0069B818 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CB610F2072440E0069B818 /* ViewController.swift */; };
+		B9CB610E2072440E0069B818 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CB610D2072440E0069B818 /* Scene.swift */; };
+		B9CB61102072440E0069B818 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CB610F2072440E0069B818 /* Main.swift */; };
 		B9CB6112207244110069B818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9CB6111207244110069B818 /* Assets.xcassets */; };
 		B9CB6115207244110069B818 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9CB6113207244110069B818 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B91C082B20738CE50023A5F3 /* Intro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intro.swift; sourceTree = "<group>"; };
+		B91C082D2073AB340023A5F3 /* unmuted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unmuted.png; sourceTree = "<group>"; };
+		B91C082E2073AB340023A5F3 /* muted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = muted.png; sourceTree = "<group>"; };
+		B91C08312073ADB10023A5F3 /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
+		B91C08372073AEAB0023A5F3 /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = "<group>"; };
+		B91C08382073AEAB0023A5F3 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
+		B91C083B2073AF400023A5F3 /* motion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = motion.png; sourceTree = "<group>"; };
+		B91C083D2073AF9C0023A5F3 /* touch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = touch.png; sourceTree = "<group>"; };
+		B97631932072FFE700E76B6F /* over.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = over.wav; sourceTree = "<group>"; };
+		B97631942072FFE700E76B6F /* pong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pong.wav; sourceTree = "<group>"; };
+		B97631952072FFE800E76B6F /* colors.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = colors.png; sourceTree = "<group>"; };
+		B97631962072FFE800E76B6F /* wall.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = wall.wav; sourceTree = "<group>"; };
+		B9C3CE0D20724765005C4AE7 /* Declarations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Declarations.swift; sourceTree = "<group>"; };
+		B9C3CE0F2072479C005C4AE7 /* Intro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intro.swift; sourceTree = "<group>"; };
+		B9C3CE11207247D4005C4AE7 /* TouchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchBar.swift; sourceTree = "<group>"; };
+		B9C3CE47207275BA005C4AE7 /* DoublePongMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoublePongMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9C3CE49207275BA005C4AE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B9C3CE4F207275BA005C4AE7 /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
+		B9C3CE51207275BA005C4AE7 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		B9C3CE54207275BA005C4AE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B9C3CE56207275BB005C4AE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B9C3CE59207275BB005C4AE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B9C3CE5B207275BB005C4AE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B9C3CE5F207277F0005C4AE7 /* Declarations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Declarations.swift; sourceTree = "<group>"; };
 		B9CB61042072440E0069B818 /* DoublePong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoublePong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9CB61072072440E0069B818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B9CB61092072440E0069B818 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		B9CB610B2072440E0069B818 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		B9CB610D2072440E0069B818 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		B9CB610F2072440E0069B818 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B9CB610D2072440E0069B818 /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
+		B9CB610F2072440E0069B818 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		B9CB6111207244110069B818 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B9CB6114207244110069B818 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B9CB6116207244110069B818 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -31,6 +77,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B9C3CE44207275BA005C4AE7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B9CB61012072440E0069B818 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -41,11 +94,56 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B91C082420735F250023A5F3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B91C082E2073AB340023A5F3 /* muted.png */,
+				B91C083B2073AF400023A5F3 /* motion.png */,
+				B91C083D2073AF9C0023A5F3 /* touch.png */,
+				B91C08372073AEAB0023A5F3 /* pause.png */,
+				B91C08382073AEAB0023A5F3 /* play.png */,
+				B91C08312073ADB10023A5F3 /* restart.png */,
+				B91C082D2073AB340023A5F3 /* unmuted.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B9C3CE1F20724A43005C4AE7 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				B9CB6111207244110069B818 /* Assets.xcassets */,
+				B97631952072FFE800E76B6F /* colors.png */,
+				B97631932072FFE700E76B6F /* over.wav */,
+				B97631942072FFE700E76B6F /* pong.wav */,
+				B97631962072FFE800E76B6F /* wall.wav */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		B9C3CE48207275BA005C4AE7 /* DoublePongMobile */ = {
+			isa = PBXGroup;
+			children = (
+				B9C3CE49207275BA005C4AE7 /* AppDelegate.swift */,
+				B9C3CE5F207277F0005C4AE7 /* Declarations.swift */,
+				B9C3CE51207275BA005C4AE7 /* Main.swift */,
+				B9C3CE4F207275BA005C4AE7 /* Scene.swift */,
+				B91C082B20738CE50023A5F3 /* Intro.swift */,
+				B9C3CE53207275BA005C4AE7 /* Main.storyboard */,
+				B9C3CE56207275BB005C4AE7 /* Assets.xcassets */,
+				B9C3CE58207275BB005C4AE7 /* LaunchScreen.storyboard */,
+				B9C3CE5B207275BB005C4AE7 /* Info.plist */,
+				B91C082420735F250023A5F3 /* Resources */,
+			);
+			path = DoublePongMobile;
+			sourceTree = "<group>";
+		};
 		B9CB60FB2072440E0069B818 = {
 			isa = PBXGroup;
 			children = (
-				B9CB611D2072442E0069B818 /* DoublePong.playground */,
+				B9C3CE1F20724A43005C4AE7 /* Shared */,
 				B9CB61062072440E0069B818 /* DoublePong */,
+				B9CB611D2072442E0069B818 /* DoublePong.playground */,
+				B9C3CE48207275BA005C4AE7 /* DoublePongMobile */,
 				B9CB61052072440E0069B818 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				B9CB61042072440E0069B818 /* DoublePong.app */,
+				B9C3CE47207275BA005C4AE7 /* DoublePongMobile.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -62,11 +161,11 @@
 			isa = PBXGroup;
 			children = (
 				B9CB61072072440E0069B818 /* AppDelegate.swift */,
-				B9CB61092072440E0069B818 /* GameScene.sks */,
-				B9CB610B2072440E0069B818 /* Actions.sks */,
-				B9CB610D2072440E0069B818 /* GameScene.swift */,
-				B9CB610F2072440E0069B818 /* ViewController.swift */,
-				B9CB6111207244110069B818 /* Assets.xcassets */,
+				B9C3CE0D20724765005C4AE7 /* Declarations.swift */,
+				B9CB610F2072440E0069B818 /* Main.swift */,
+				B9CB610D2072440E0069B818 /* Scene.swift */,
+				B9C3CE0F2072479C005C4AE7 /* Intro.swift */,
+				B9C3CE11207247D4005C4AE7 /* TouchBar.swift */,
 				B9CB6113207244110069B818 /* Main.storyboard */,
 				B9CB6116207244110069B818 /* Info.plist */,
 				B9CB6117207244110069B818 /* DoublePong.entitlements */,
@@ -77,6 +176,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B9C3CE46207275BA005C4AE7 /* DoublePongMobile */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B9C3CE5C207275BB005C4AE7 /* Build configuration list for PBXNativeTarget "DoublePongMobile" */;
+			buildPhases = (
+				B9C3CE43207275BA005C4AE7 /* Sources */,
+				B9C3CE44207275BA005C4AE7 /* Frameworks */,
+				B9C3CE45207275BA005C4AE7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DoublePongMobile;
+			productName = DoublePongMobile;
+			productReference = B9C3CE47207275BA005C4AE7 /* DoublePongMobile.app */;
+			productType = "com.apple.product-type.application";
+		};
 		B9CB61032072440E0069B818 /* DoublePong */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B9CB611A207244110069B818 /* Build configuration list for PBXNativeTarget "DoublePong" */;
@@ -104,6 +220,9 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Julian Schiavo";
 				TargetAttributes = {
+					B9C3CE46207275BA005C4AE7 = {
+						CreatedOnToolsVersion = 9.3;
+					};
 					B9CB61032072440E0069B818 = {
 						CreatedOnToolsVersion = 9.3;
 					};
@@ -123,18 +242,42 @@
 			projectRoot = "";
 			targets = (
 				B9CB61032072440E0069B818 /* DoublePong */,
+				B9C3CE46207275BA005C4AE7 /* DoublePongMobile */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B9C3CE45207275BA005C4AE7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B91C08302073AB340023A5F3 /* muted.png in Resources */,
+				B91C083A2073AEAB0023A5F3 /* play.png in Resources */,
+				B976319A2072FFE800E76B6F /* pong.wav in Resources */,
+				B97631982072FFE800E76B6F /* over.wav in Resources */,
+				B91C08342073ADB10023A5F3 /* restart.png in Resources */,
+				B9C3CE55207275BA005C4AE7 /* Main.storyboard in Resources */,
+				B9C3CE57207275BB005C4AE7 /* Assets.xcassets in Resources */,
+				B91C082F2073AB340023A5F3 /* unmuted.png in Resources */,
+				B9C3CE5A207275BB005C4AE7 /* LaunchScreen.storyboard in Resources */,
+				B91C08392073AEAB0023A5F3 /* pause.png in Resources */,
+				B91C083C2073AF400023A5F3 /* motion.png in Resources */,
+				B976319E2072FFE800E76B6F /* wall.wav in Resources */,
+				B976319C2072FFE800E76B6F /* colors.png in Resources */,
+				B91C083E2073AF9C0023A5F3 /* touch.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B9CB61022072440E0069B818 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9CB610A2072440E0069B818 /* GameScene.sks in Resources */,
+				B976319D2072FFE800E76B6F /* wall.wav in Resources */,
+				B97631992072FFE800E76B6F /* pong.wav in Resources */,
+				B97631972072FFE800E76B6F /* over.wav in Resources */,
+				B976319B2072FFE800E76B6F /* colors.png in Resources */,
 				B9CB6112207244110069B818 /* Assets.xcassets in Resources */,
-				B9CB610C2072440E0069B818 /* Actions.sks in Resources */,
 				B9CB6115207244110069B818 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,19 +285,50 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B9C3CE43207275BA005C4AE7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B91C082C20738CE50023A5F3 /* Intro.swift in Sources */,
+				B9C3CE50207275BA005C4AE7 /* Scene.swift in Sources */,
+				B9C3CE52207275BA005C4AE7 /* Main.swift in Sources */,
+				B9C3CE60207277F0005C4AE7 /* Declarations.swift in Sources */,
+				B9C3CE4A207275BA005C4AE7 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B9CB61002072440E0069B818 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9CB61102072440E0069B818 /* ViewController.swift in Sources */,
-				B9CB610E2072440E0069B818 /* GameScene.swift in Sources */,
+				B9C3CE102072479C005C4AE7 /* Intro.swift in Sources */,
+				B9CB61102072440E0069B818 /* Main.swift in Sources */,
+				B9CB610E2072440E0069B818 /* Scene.swift in Sources */,
+				B9C3CE0E20724765005C4AE7 /* Declarations.swift in Sources */,
 				B9CB61082072440E0069B818 /* AppDelegate.swift in Sources */,
+				B9C3CE12207247D4005C4AE7 /* TouchBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		B9C3CE53207275BA005C4AE7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B9C3CE54207275BA005C4AE7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		B9C3CE58207275BB005C4AE7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B9C3CE59207275BB005C4AE7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		B9CB6113207244110069B818 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -166,6 +340,49 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		B9C3CE5D207275BB005C4AE7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7G63ZH884W;
+				INFOPLIST_FILE = DoublePongMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dotjs.DoublePongMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B9C3CE5E207275BB005C4AE7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7G63ZH884W;
+				INFOPLIST_FILE = DoublePongMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dotjs.DoublePongMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		B9CB6118207244110069B818 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -291,6 +508,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dotjs.DoublePong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -309,6 +527,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dotjs.DoublePong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -318,6 +537,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B9C3CE5C207275BB005C4AE7 /* Build configuration list for PBXNativeTarget "DoublePongMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B9C3CE5D207275BB005C4AE7 /* Debug */,
+				B9C3CE5E207275BB005C4AE7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B9CB60FF2072440E0069B818 /* Build configuration list for PBXProject "DoublePong" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
