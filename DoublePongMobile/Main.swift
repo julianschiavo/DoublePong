@@ -17,7 +17,8 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         if let view = self.view as! SKView? {
-            scene.scaleMode = .aspectFit
+            scene.size = CGSize(width: 1920, height: 1080)
+            scene.scaleMode = .resizeFill
             view.presentScene(scene)
             view.ignoresSiblingOrder = true
         }
@@ -37,17 +38,41 @@ class GameViewController: UIViewController {
             manager.startDeviceMotionUpdates(to: .main) {
                 (data: CMDeviceMotion?, error: Error?) in
                 if (motionEnabled) {
-                    let xLocation = UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft ? CGFloat((data?.gravity.y)!) * 1000) : 960 - (CGFloat((data?.gravity.y)!) * 1000)
-                    let xPosition = (xLocation < 1920 - 85 - topPaddle.size.width / 2 && xLocation > topPaddle.size.width / 2 + 85) ? xLocation : ((xLocation > 1920 - 85 - topPaddle.size.width / 2) ? 1920 - 25 - topPaddle.size.width / 2 : topPaddle.size.width / 2 + 25)
+                    let xLocation = UIApplication.shared.statusBarOrientation == .landscapeLeft ? scene.size.width / 2 + CGFloat((data?.gravity.y)!) * 1000 : scene.size.width / 2 - CGFloat((data?.gravity.y)!) * 1000
+                    let yLocation = UIApplication.shared.statusBarOrientation == .landscapeLeft ? scene.size.width / 2 - (CGFloat((data?.gravity.x)!) * 1000) : scene.size.width / 2 + (CGFloat((data?.gravity.x)!) * 1000)
+                    scene.positionChanged(xLocation, yLocation)
+                    /*
+                    let xPosition = (xLocation < width - modifier - topPaddle.frame.width / 2 && xLocation > topPaddle.frame.width / 2 + modifier) ? xLocation : ((xLocation > width - modifier - topPaddle.frame.width / 2) ? width - setToH - topPaddle.frame.width / 2 : topPaddle.frame.width / 2 + setToH)
                     topPaddle.position.x = xPosition
                     bottomPaddle.position.x = xPosition
-                    let yLocation = UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft ? 960 - (CGFloat((data?.gravity.x)!) * 1000) : 960 + (CGFloat((data?.gravity.x)!) * 1000)
-                    let yPosition = (yLocation < 1080 - 85 - leftPaddle.size.height / 2 && yLocation > leftPaddle.size.height / 2 + 85) ? yLocation : ((yLocation > 1080 - 85 - leftPaddle.size.height / 2) ? 1080 - 27 - leftPaddle.size.height / 2 : leftPaddle.size.height / 2 + 25)
+                    let yPosition = (yLocation < height - modifier - leftPaddle.frame.height / 2 && yLocation > leftPaddle.frame.height / 2 + modifier) ? yLocation : ((yLocation > height - modifier - leftPaddle.frame.height / 2) ? height - setToV - leftPaddle.frame.height / 2 : leftPaddle.frame.height / 2 + setToV)
                     leftPaddle.position.y = yPosition
-                    rightPaddle.position.y = yPosition
+                    rightPaddle.position.y = yPosition*/
                 }
             }
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        var sceneBound = SKPhysicsBody(edgeLoopFrom: CGRect(origin: CGPoint(x: 18, y: 18), size: CGSize(width: scene.size.width - 36, height: scene.size.height - 36)))
+        if #available(iOS 11.0, *) {
+            safeTop = CGFloat((self.view?.safeAreaInsets.top)!)
+            safeLeft = CGFloat((self.view?.safeAreaInsets.left)!)
+            safeRight = CGFloat((self.view?.safeAreaInsets.right)!)
+            safeBottom = CGFloat((self.view?.safeAreaInsets.bottom)!)
+            topPaddle.position.y = topPaddle.position.y - safeTop
+            leftPaddle.position.x = leftPaddle.position.x + safeLeft
+            rightPaddle.position.x = rightPaddle.position.x - safeRight
+            bottomPaddle.position.y = bottomPaddle.position.y + safeBottom
+            setToH += (safeLeft + safeRight) / 2
+            setToV += (safeTop + safeBottom) / 2
+            
+            sceneBound = SKPhysicsBody(edgeLoopFrom: CGRect(origin: CGPoint(x: 18 + safeLeft, y: 18 + safeBottom), size: CGSize(width: scene.size.width - 36 - safeLeft - safeRight, height: scene.size.height - 36 - safeTop - safeBottom)))
+        }
+        sceneBound.friction                     = 0
+        sceneBound.restitution                  = 0
+        scene.physicsBody                       = sceneBound
     }
 
     override var shouldAutorotate: Bool {

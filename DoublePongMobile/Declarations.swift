@@ -27,13 +27,21 @@ public let rightPaddleI:       UInt32 = 0x1 << 3
 public let bottomPaddleI:      UInt32 = 0x1 << 4
 public let randomObstacleI:    UInt32 = 0x1 << 5
 
+public var safeTop             = CGFloat(0)
+public var safeLeft            = CGFloat(0)
+public var safeRight           = CGFloat(0)
+public var safeBottom          = CGFloat(0)
+public var setToH              = scene.size.height / 29 // 25
+public var setToV              = scene.size.height / 29 // 25
+public let modifier            = scene.size.height / 16.6153846154 // 65
+
 // Initislise preferences variables and pick a random color if a custom color isn't selected
 public let prefs               = UserDefaults.standard
 public let randomIndex         = colorArray.random()
 public let randomColor:        UIColor = (!reset && prefs.getColor(key: "customColor") != nil) ? (prefs.getColor(key: "customColor"))! : UIColor(rgb: randomIndex!)
 
 // Initialise SKNode variables (paddles and ball)
-public var ball                = SKShapeNode(circleOfRadius: 30)
+public var ball                = SKShapeNode(circleOfRadius: 12)
 public var topPaddle           = SKSpriteNode()
 public var leftPaddle          = SKSpriteNode()
 public var rightPaddle         = SKSpriteNode()
@@ -46,8 +54,8 @@ public var lives               = 5
 public var topScore:           Int = (!reset && prefs.object(forKey: "topScore") != nil) ? prefs.object(forKey: "topScore") as! Int : 0
 public let colorArray          = [ 0x000000, 0xfe0000, 0xff7900, 0xffb900, 0xffde00, 0xfcff00, 0xd2ff00, 0x05c000, 0x00c0a7, 0x0600ff, 0x6700bf, 0x9500c0, 0xbf0199, 0xffffff ]
 public var gamePlaying         = true
-public let verticalRand        = CGFloat(randomNumber(inRange: 325...755))
-public let horizontalRan       = CGFloat(randomNumber(inRange: 325...1595))
+public let verticalRand        = CGFloat(randomNumber(inRange: Int(scene.size.width / 6)...Int(scene.size.width / 1.2)))
+public let horizontalRan       = CGFloat(randomNumber(inRange: Int(scene.size.height / 3)...Int(scene.size.height / 1.2)))
 public var motionEnabled:      Bool = (!reset && prefs.object(forKey: "motionEnabled") != nil) ? prefs.object(forKey: "motionEnabled") as! Bool : true
 public var soundsEnabled:      Bool = (!reset && prefs.object(forKey: "soundsEnabled") != nil) ? prefs.object(forKey: "soundsEnabled") as! Bool : true
 
@@ -143,36 +151,120 @@ public extension UIImage {
         return UIImage(cgImage: outputImageCopy)
     }
 }
-/*
-extension UIImage {
-    func invert() -> UIImage? {
-        let img = CoreImage.CIImage(CGImage: self.CGImage!)
-        let filter = CIFilter(name: "CIColorInvert")
-        filter?.setDefaults()
-        filter.setValue(img, forKey: "inputImage")
-        let context = CIContext(options:nil)
-        let cgimg = context.createCGImage(filter.outputImage, fromRect: filter.outputImage.extent())
-        return UIImage(CGImage: cgimg)
+
+public extension UIButton {
+    public convenience init(title: String = "Empty", size: Int = 18, color: UIColor = UIColor.clear, image: UIImage? = nil, action: Selector, transparent: Bool = true, x: CGFloat = 0, y: CGFloat = 0, width: CGFloat = 0, height: CGFloat = 0, hidden: Bool = false, radius: Int = 0) {
+        self.init()
+        self.addTarget(scene, action: action, for: .touchUpInside)
+        self.tintColor                    = .white
+        self.isHidden                     = hidden
+        self.frame                        = CGRect(x: x, y: y, width: width, height: height)
+        if (title != "Empty") {
+            self.setTitle(title, for: .normal)
+            self.clipsToBounds            = true
+            self.layer.cornerRadius       = CGFloat(radius)
+            self.backgroundColor          = color
+        } else { self.setImage(image, for: .normal) }
     }
-}*/
+    public convenience init(title: String = "Empty", size: Int = 18, color: UIColor = UIColor.clear, image: UIImage? = nil, action: Selector, transparent: Bool = true, hidden: Bool = false, radius: Int = 0, width: CGFloat = 0, height: CGFloat = 0, centerXConstant: CGFloat? = nil, centerYConstant: CGFloat? = nil, topAnchorConstant: CGFloat? = nil, leftAnchorConstant: CGFloat? = nil, rightAnchorConstant: CGFloat? = nil, bottomAnchorConstant: CGFloat? = nil) {
+        self.init()
+        scene.view?.addSubview(self)
+        self.addTarget(scene, action: action, for: .touchUpInside)
+        self.tintColor                    = .white
+        self.isHidden                     = hidden
+        if (title != "Empty") {
+            self.setTitle(title, for: .normal)
+            self.clipsToBounds            = true
+            self.layer.cornerRadius       = CGFloat(radius)
+            self.backgroundColor          = color
+        } else { self.setImage(image, for: .normal) }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.widthAnchor.constraint(equalToConstant: width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: height).isActive = true
+        if #available(iOS 11, *) {
+            if (centerXConstant != nil) { self.centerXAnchor.constraint(equalTo: (scene.view?.safeAreaLayoutGuide.centerXAnchor)!, constant: centerXConstant!).isActive = true }
+            if (centerYConstant != nil) { self.centerYAnchor.constraint(equalTo: (scene.view?.safeAreaLayoutGuide.centerYAnchor)!, constant: centerYConstant!).isActive = true }
+            if (topAnchorConstant != nil) { self.topAnchor.constraint(equalTo: (scene.view?.safeAreaLayoutGuide.topAnchor)!, constant: topAnchorConstant!).isActive = true }
+            if (leftAnchorConstant != nil) { self.leftAnchor.constraint(equalTo: (scene.view?.safeAreaLayoutGuide.leftAnchor)!, constant: leftAnchorConstant!).isActive = true }
+            if (rightAnchorConstant != nil) { self.rightAnchor.constraint(equalTo: (scene.view?.safeAreaLayoutGuide.rightAnchor)!, constant: rightAnchorConstant!).isActive = true }
+            if (bottomAnchorConstant != nil) { self.bottomAnchor.constraint(equalTo: (scene.view?.safeAreaLayoutGuide.bottomAnchor)!, constant: bottomAnchorConstant!).isActive = true }
+        } else {
+            if (centerXConstant != nil) { self.centerXAnchor.constraint(equalTo: (scene.view?.centerXAnchor)!, constant: centerXConstant!).isActive = true }
+            if (centerYConstant != nil) { self.centerYAnchor.constraint(equalTo: (scene.view?.centerYAnchor)!, constant: centerYConstant!).isActive = true }
+            if (topAnchorConstant != nil) { self.topAnchor.constraint(equalTo: (scene.view?.topAnchor)!, constant: topAnchorConstant!).isActive = true }
+            if (leftAnchorConstant != nil) { self.leftAnchor.constraint(equalTo: (scene.view?.leftAnchor)!, constant: leftAnchorConstant!).isActive = true }
+            if (rightAnchorConstant != nil) { self.rightAnchor.constraint(equalTo: (scene.view?.rightAnchor)!, constant: rightAnchorConstant!).isActive = true }
+            if (bottomAnchorConstant != nil) { self.bottomAnchor.constraint(equalTo: (scene.view?.bottomAnchor)!, constant: bottomAnchorConstant!).isActive = true }
+        }
+    }
+}
 
 // Creates a SKSpriteNode with a SKPhysicsBody
-public extension SKNode {
-    public func createNode(color: UIColor, size: CGSize, name: String, dynamic: Bool, friction: CGFloat, restitution: CGFloat, cBM: UInt32, cTBM: UInt32?, position: CGPoint? = nil) -> SKSpriteNode {
-        let node                                    = SKSpriteNode(color: color, size: size)
-        node.name                                   = name
-        node.physicsBody                            = SKPhysicsBody(rectangleOf: node.size)
-        node.physicsBody!.isDynamic                 = dynamic
-        node.physicsBody!.friction                  = friction
-        node.physicsBody!.restitution               = restitution
-        node.physicsBody!.categoryBitMask           = cBM
+public extension SKSpriteNode {
+    public convenience init(color: UIColor, size: CGSize, name: String, dynamic: Bool, friction: CGFloat, restitution: CGFloat, cBM: UInt32, cTBM: UInt32?, position: CGPoint? = nil) {
+        self.init(color: color, size: size)
+        self.name                                   = name
+        self.physicsBody                            = SKPhysicsBody(rectangleOf: self.size)
+        self.physicsBody!.isDynamic                 = dynamic
+        self.physicsBody!.friction                  = friction
+        self.physicsBody!.restitution               = restitution
+        self.physicsBody!.categoryBitMask           = cBM
         if (cTBM != nil) {
-            node.physicsBody!.contactTestBitMask    = cTBM!
+            self.physicsBody!.contactTestBitMask    = cTBM!
         }
         if (position != nil) {
-            node.position                           = position!
+            self.position                           = position!
         }
-        return node
+    }
+}
+
+public extension UILabel {
+    // Quickly creates a UILabel with all needed options
+    public convenience init(title: String, align: Int = 2, size: CGFloat, color: UIColor, hidden: Bool = false, bold: Bool = false, x: Double? = nil, y: Double? = nil, width: Double? = nil, height: Double? = nil) {
+        self.init()
+        self.font              = bold ? UIFont.boldSystemFont(ofSize: size) : UIFont.systemFont(ofSize: size)
+        self.isHidden          = hidden
+        self.textColor         = color
+        self.textAlignment     = align == 2 ? .center : (align == 3 ? .right : .left)
+        self.text              = title
+        if (x != nil && y != nil) {
+            if (width != nil && height != nil) {
+                self.frame = CGRect(x: x!, y: y!, width: width!, height: height!)
+            } else {
+                self.sizeToFit()
+                self.frame.origin = CGPoint(x: x!, y: y!)
+            }
+        } else {
+            self.sizeToFit()
+        }
+    }
+    // Quickly creates a UILabel with all needed options
+    public convenience init(title: String, align: Int = 2, size: CGFloat, color: UIColor, hidden: Bool = false, bold: Bool = false, width: CGFloat = 0, height: CGFloat = 0, centerXConstant: CGFloat? = nil, centerYConstant: CGFloat? = nil, topAnchorConstant: CGFloat? = nil, leftAnchorConstant: CGFloat? = nil, rightAnchorConstant: CGFloat? = nil, bottomAnchorConstant: CGFloat? = nil) {
+        self.init()
+        scene.view?.addSubview(self)
+        self.font              = bold ? UIFont.boldSystemFont(ofSize: size) : UIFont.systemFont(ofSize: size)
+        self.isHidden          = hidden
+        self.textColor         = color
+        self.textAlignment     = align == 2 ? .center : (align == 3 ? .right : .left)
+        self.text              = title
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.widthAnchor.constraint(equalToConstant: width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: height).isActive = true
+        if #available(iOS 11, *) {
+            if (centerXConstant != nil) { self.centerXAnchor.constraint(equalTo: (scene.view?.safeAreaLayoutGuide.centerXAnchor)!, constant: centerXConstant!).isActive = true }
+            if (centerYConstant != nil) { self.centerYAnchor.constraint(equalTo: (scene.view?.safeAreaLayoutGuide.centerYAnchor)!, constant: centerYConstant!).isActive = true }
+            if (topAnchorConstant != nil) { self.topAnchor.constraint(equalTo: (scene.view?.safeAreaLayoutGuide.topAnchor)!, constant: topAnchorConstant!).isActive = true }
+            if (leftAnchorConstant != nil) { self.leftAnchor.constraint(equalTo: (scene.view?.safeAreaLayoutGuide.leftAnchor)!, constant: leftAnchorConstant!).isActive = true }
+            if (rightAnchorConstant != nil) { self.rightAnchor.constraint(equalTo: (scene.view?.safeAreaLayoutGuide.rightAnchor)!, constant: rightAnchorConstant!).isActive = true }
+            if (bottomAnchorConstant != nil) { self.bottomAnchor.constraint(equalTo: (scene.view?.safeAreaLayoutGuide.bottomAnchor)!, constant: bottomAnchorConstant!).isActive = true }
+        } else {
+            if (centerXConstant != nil) { self.centerXAnchor.constraint(equalTo: (scene.view?.centerXAnchor)!, constant: centerXConstant!).isActive = true }
+            if (centerYConstant != nil) { self.centerYAnchor.constraint(equalTo: (scene.view?.centerYAnchor)!, constant: centerYConstant!).isActive = true }
+            if (topAnchorConstant != nil) { self.topAnchor.constraint(equalTo: (scene.view?.topAnchor)!, constant: topAnchorConstant!).isActive = true }
+            if (leftAnchorConstant != nil) { self.leftAnchor.constraint(equalTo: (scene.view?.leftAnchor)!, constant: leftAnchorConstant!).isActive = true }
+            if (rightAnchorConstant != nil) { self.rightAnchor.constraint(equalTo: (scene.view?.rightAnchor)!, constant: rightAnchorConstant!).isActive = true }
+            if (bottomAnchorConstant != nil) { self.bottomAnchor.constraint(equalTo: (scene.view?.bottomAnchor)!, constant: bottomAnchorConstant!).isActive = true }
+        }
     }
 }
 
@@ -195,48 +287,6 @@ public extension SKScene {
     // Removes multiple subviews at once
     public func removeSubviews(_ views: UIView...){
         for view in views { view.removeFromSuperview() }
-    }
-    
-    //
-    public func createButton(title: String = "Empty", size: Int = 18, color: UIColor = UIColor.clear, image: UIImage? = nil, action: Selector, transparent: Bool = true, x: CGFloat = 0, y: CGFloat = 0, width: CGFloat = 0, height: CGFloat = 0, hidden: Bool = false, radius: Int = 0) -> UIButton {
-        let button                      = UIButton()
-        button.addTarget(self, action: action, for: .touchUpInside)
-        button.tintColor                    = .white
-        button.isHidden                     = hidden
-        button.frame                        = CGRect(x: x, y: y, width: width, height: height)
-        if (title != "Empty") {
-            button.setTitle(title, for: .normal)
-            button.clipsToBounds            = true
-            button.layer.cornerRadius       = CGFloat(radius)
-            button.backgroundColor          = color
-        } else { button.setImage(image, for: .normal) }
-        return button
-    }
-    
-    //
-    public func updateButton(button: UIButton, title: String) {
-        button.setTitle(title, for: .normal)
-    }
-    
-    // Quickly creates a UILabel with all needed options
-    public func createLabel(title: String, align: Int = 2, size: CGFloat, color: UIColor, hidden: Bool = false, bold: Bool = false, x: Double? = nil, y: Double? = nil, width: Double? = nil, height: Double? = nil) -> UILabel {
-        let label               = UILabel()
-        label.font              = bold ? UIFont.boldSystemFont(ofSize: size) : UIFont.systemFont(ofSize: size)
-        label.isHidden          = hidden
-        label.textColor         = color
-        label.textAlignment     = align == 2 ? .center : (align == 3 ? .right : .left)
-        label.text              = title
-        if (x != nil && y != nil) {
-            if (width != nil && height != nil) {
-                label.frame = CGRect(x: x!, y: y!, width: width!, height: height!)
-            } else {
-                label.sizeToFit()
-                label.frame.origin = CGPoint(x: x!, y: y!)
-            }
-        } else {
-            label.sizeToFit()
-        }
-        return label
     }
 }
 

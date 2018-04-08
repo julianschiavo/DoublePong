@@ -214,10 +214,10 @@ public class Scene: SKScene, SKPhysicsContactDelegate {
             scoreLabelTB.stringValue = String(score)
             
             // Add random obstacles after 500 points to break patterns and make the gameplay better
-            if score > 500 {
+            if score > 10 {
                 removeChilds(randomObstacle)
                 let size = CGSize(width: CGFloat(randomNumber(inRange: 100...400)), height: CGFloat(randomNumber(inRange: 30...70)))
-                randomObstacle = createNode(color: NSColor.clear, size: size, name: "obstacle", dynamic: false, friction: 0, restitution: 1, cBM: randomObstacleI, cTBM: Ball, position: CGPoint(x: CGFloat(randomNumber(inRange: 100...Int(frame.maxX - size.width - 100))), y: CGFloat(randomNumber(inRange: 100...Int(frame.maxY - size.height - 100)))))
+                randomObstacle = createNode(color: NSColor.red, size: size, name: "obstacle", dynamic: false, friction: 0, restitution: 1, cBM: randomObstacleI, cTBM: Ball, position: CGPoint(x: CGFloat(randomNumber(inRange: 100...Int(frame.maxX - size.width - 100))), y: CGFloat(randomNumber(inRange: 100...Int(frame.maxY - size.height - 100)))))
                 addChilds(randomObstacle)
             }
             
